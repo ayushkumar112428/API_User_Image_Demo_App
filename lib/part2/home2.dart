@@ -31,6 +31,7 @@ class _HomePage2State extends State<HomePage2> {
         padding: const EdgeInsets.all(07.0),
         child: Column(
           children: [
+            storyview(),
             Expanded(
               child: FutureBuilder<Imgdata>(
                 future: getData(),
@@ -48,7 +49,8 @@ class _HomePage2State extends State<HomePage2> {
                               subtitle:
                                   Text(snapshot.data!.data[index].user.email),
                               leading: CircleAvatar(
-                                backgroundImage: NetworkImage(snapshot.data!.data[index].user.img),
+                                backgroundImage: NetworkImage(
+                                    snapshot.data!.data[index].user.img),
                               ),
                             ),
                             SizedBox(
@@ -56,27 +58,47 @@ class _HomePage2State extends State<HomePage2> {
                               width: MediaQuery.of(context).size.width * 1,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: snapshot.data!.data[index].images.length,
+                                itemCount:
+                                    snapshot.data!.data[index].images.length,
                                 itemBuilder: (context, imgcount) {
                                   return Padding(
-                                    padding: const EdgeInsets.only(left: 14,right: 10),
+                                    padding: const EdgeInsets.only(
+                                        left: 14, right: 10),
                                     child: Container(
-                                      height:MediaQuery.of(context).size.height *.37,
-                                      width: MediaQuery.of(context).size.width *.51,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .37,
+                                      width: MediaQuery.of(context).size.width *
+                                          .51,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 8),
-                                            child: Text(snapshot.data!.data[index].images[imgcount].imagename,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w700),),
+                                            padding:
+                                                const EdgeInsets.only(left: 8),
+                                            child: Text(
+                                              snapshot.data!.data[index]
+                                                  .images[imgcount].imagename,
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w700),
+                                            ),
                                           ),
                                           Container(
-                                            height: MediaQuery.of(context).size.height *.24,
-                                            width: MediaQuery.of(context).size.width *.53,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .24,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .53,
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -103,13 +125,7 @@ class _HomePage2State extends State<HomePage2> {
                       },
                     );
                   } else {
-                    return Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/loding/l4.jpeg"),
-                        ),
-                      ),
-                    );
+                    return Container();
                   }
                 },
               ),
@@ -117,6 +133,44 @@ class _HomePage2State extends State<HomePage2> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget storyview() {
+    return FutureBuilder<Imgdata>(
+      future: getData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return SizedBox(
+            height: 125,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: snapshot.data!.data.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: CircleAvatar(
+                        foregroundColor: Colors.orange,
+                        backgroundColor:
+                            const Color.fromARGB(255, 245, 234, 234),
+                        radius: 32,
+                        backgroundImage:
+                            NetworkImage(snapshot.data!.data[index].user.img),
+                      ),
+                    ),
+                    Text(snapshot.data!.data[index].user.name),
+                  ],
+                );
+              },
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
